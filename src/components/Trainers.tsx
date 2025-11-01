@@ -13,10 +13,10 @@ const Trainers = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
             Meet Our Trainers
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto font-normal">
             Expert trainers dedicated to helping you reach your fitness goals
           </p>
         </motion.div>
@@ -30,7 +30,7 @@ const Trainers = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
               whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all duration-300"
             >
               <div className="relative h-64 overflow-hidden">
                 <img
@@ -48,7 +48,7 @@ const Trainers = () => {
               </div>
               <div className="p-6">
                 <div className="flex items-center mb-2">
-                  <FaStar className="text-yellow-400 mr-1" />
+                  <FaStar className="text-yellow-500 mr-1" />
                   <span className="text-gray-700 font-medium">
                     {trainer.experience} years experience
                   </span>

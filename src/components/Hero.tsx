@@ -1,8 +1,18 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { FaArrowDown } from 'react-icons/fa';
+import { useRef } from 'react';
 import { smoothScrollTo } from '../utils/smoothScroll';
 
 const Hero = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const sectionId = href.slice(1);
@@ -12,83 +22,80 @@ const Hero = () => {
 
   return (
     <section
+      ref={sectionRef}
       id="home"
-      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden"
     >
-      {/* Animated Background */}
+      {/* Clean Background with subtle pattern */}
       <div className="absolute inset-0 z-0">
-        {/* Gradient Mesh */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/30 via-purple-900/30 to-pink-900/30" />
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-10 mix-blend-overlay"
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-50/50 via-white to-white" />
+        {/* Subtle grid pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.02]"
           style={{
-            backgroundImage:
-              'url(https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920)',
+            backgroundImage: 'linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px)',
+            backgroundSize: '50px 50px'
           }}
         />
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
-        <div className="absolute top-40 right-20 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
-        <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 text-center">
+      <motion.div
+        style={{ y, opacity }}
+        className="relative z-10 container mx-auto px-4 text-center"
+      >
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto"
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-5xl mx-auto"
         >
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-6xl md:text-8xl font-extrabold mb-6 text-gradient leading-tight"
+            transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+            className="text-6xl md:text-8xl font-bold mb-6 text-gray-900 leading-tight"
           >
             Transform Your Body,
             <br />
-            <span className="bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
-              Transform Your Life
-            </span>
+            <span className="text-blue-600">Transform Your Life</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-xl md:text-2xl text-gray-200 mb-10 font-light max-w-2xl mx-auto leading-relaxed"
+            transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
+            className="text-xl md:text-2xl text-gray-600 mb-12 font-normal max-w-2xl mx-auto leading-relaxed"
           >
             Join thousands of members achieving their fitness goals at FitZone.
-            <span className="block mt-2 text-indigo-300 font-medium">Where excellence meets dedication.</span>
+            <span className="block mt-3 text-gray-700 font-medium">Where excellence meets dedication.</span>
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+            transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
             <motion.a
               href="#plans"
               onClick={(e) => handleNavClick(e, '#plans')}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white px-10 py-4 rounded-xl text-lg font-bold hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 cursor-pointer relative overflow-hidden group"
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-blue-600 text-white px-10 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-all duration-200 cursor-pointer shadow-md hover:shadow-lg"
             >
-              <span className="relative z-10">Start Your Journey</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              Start Your Journey
             </motion.a>
             <motion.a
               href="#about"
               onClick={(e) => handleNavClick(e, '#about')}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="glass border-2 border-white/20 text-white px-10 py-4 rounded-xl text-lg font-semibold hover:bg-white/10 hover:border-white/40 transition-all duration-300 cursor-pointer backdrop-blur-sm"
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="border-2 border-gray-300 text-gray-700 px-10 py-4 rounded-lg text-lg font-semibold hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 cursor-pointer"
             >
               Learn More
             </motion.a>
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div
@@ -100,9 +107,9 @@ const Hero = () => {
         <motion.a
           href="#about"
           onClick={(e) => handleNavClick(e, '#about')}
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="text-white text-2xl cursor-pointer"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          className="text-gray-400 text-2xl cursor-pointer hover:text-gray-600 transition-colors"
         >
           <FaArrowDown />
         </motion.a>
@@ -112,4 +119,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
