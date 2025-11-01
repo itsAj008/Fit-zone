@@ -10,7 +10,7 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-20 bg-white">
+    <section id="about" className="py-20 bg-gradient-to-b from-white to-slate-50">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -19,10 +19,10 @@ const About = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-5xl md:text-6xl font-extrabold mb-4 text-gradient">
             About FitZone
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-700 max-w-3xl mx-auto font-light leading-relaxed">
             We're not just a gym, we're a community dedicated to helping you
             achieve your fitness goals with world-class facilities and expert
             trainers.
@@ -49,10 +49,10 @@ const About = () => {
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <h3 className="text-3xl font-bold text-gray-900">
+            <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Your Journey to Fitness Starts Here
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-700 leading-relaxed font-light mb-4">
               At FitZone, we believe that fitness is a journey, not a
               destination. Our state-of-the-art facility is equipped with the
               latest equipment and staffed by certified trainers who are
@@ -71,8 +71,8 @@ const About = () => {
                 'Nutrition guidance',
                 'Flexible membership options',
               ].map((item, index) => (
-                <li key={index} className="flex items-center text-gray-700">
-                  <span className="text-red-600 mr-3">✓</span>
+                <li key={index} className="flex items-center text-gray-700 font-medium">
+                  <span className="text-transparent bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text font-bold mr-3 text-lg">✓</span>
                   {item}
                 </li>
               ))}
@@ -89,13 +89,13 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
-              className="text-center p-6 bg-gray-50 rounded-lg"
+              className="text-center p-6 glass border border-indigo-100 rounded-2xl hover:shadow-lg transition-all duration-300 hover:scale-105"
             >
-              <stat.icon className="text-4xl text-red-600 mx-auto mb-4" />
-              <div className="text-4xl font-bold text-gray-900 mb-2">
+              <stat.icon className="text-5xl text-transparent bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 bg-clip-text mx-auto mb-4" />
+              <div className="text-5xl font-extrabold text-gradient mb-2">
                 {stat.value}
               </div>
-              <div className="text-gray-600">{stat.label}</div>
+              <div className="text-gray-600 font-medium">{stat.label}</div>
             </motion.div>
           ))}
         </div>

@@ -90,17 +90,24 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm shadow-lg">
+    <nav className="fixed top-0 left-0 right-0 z-50 glass-dark border-b border-white/10 shadow-2xl">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-3"
           >
-            <FaDumbbell className="text-red-600 text-2xl" />
-            <span className="text-2xl font-bold text-white">FitZone</span>
+            <div className="relative">
+              <FaDumbbell className="text-3xl text-transparent bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 bg-clip-text" />
+              <div className="absolute inset-0 blur-xl opacity-50">
+                <FaDumbbell className="text-3xl text-indigo-500" />
+              </div>
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-white via-indigo-100 to-purple-100 bg-clip-text text-transparent">
+              FitZone
+            </span>
           </motion.div>
 
           {/* Desktop Nav */}
@@ -115,9 +122,9 @@ const Navbar = () => {
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`${
                     isActive
-                      ? 'text-red-600'
-                      : 'text-gray-300 hover:text-red-300'
-                  } transition-colors duration-200 font-medium cursor-pointer touch-manipulation`}
+                      ? 'text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text font-semibold'
+                      : 'text-gray-300 hover:text-white'
+                  } transition-all duration-300 font-medium cursor-pointer touch-manipulation relative group`}
                 >
                   {item.name}
                 </a>
@@ -128,7 +135,7 @@ const Navbar = () => {
               onClick={(e) => handleNavClick(e, '#plans')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 cursor-pointer touch-manipulation"
+              className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white px-6 py-2.5 rounded-xl hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 cursor-pointer touch-manipulation font-semibold"
             >
               Join Now
             </motion.a>
@@ -151,7 +158,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-gray-900"
+            className="md:hidden glass-dark border-t border-white/10"
           >
             <div className="container mx-auto px-4 py-4 space-y-4">
               {navItems.map((item) => {
@@ -164,9 +171,9 @@ const Navbar = () => {
                     onClick={(e) => handleNavClick(e, item.href)}
                     className={`block ${
                       isActive
-                        ? 'text-red-600'
-                        : 'text-gray-300 hover:text-red-600'
-                    } transition-colors duration-200 py-2 cursor-pointer touch-manipulation`}
+                        ? 'text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text font-semibold'
+                        : 'text-gray-300 hover:text-white'
+                    } transition-all duration-300 py-3 cursor-pointer touch-manipulation`}
                   >
                     {item.name}
                   </a>
@@ -175,7 +182,7 @@ const Navbar = () => {
               <a
                 href="#plans"
                 onClick={(e) => handleNavClick(e, '#plans')}
-                className="block bg-red-600 text-white px-6 py-2 rounded-lg text-center hover:bg-red-700 transition-colors duration-200 cursor-pointer touch-manipulation"
+                className="block bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl text-center hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 cursor-pointer touch-manipulation font-semibold"
               >
                 Join Now
               </a>
