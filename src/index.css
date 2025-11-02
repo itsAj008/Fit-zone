@@ -1,17 +1,141 @@
 @import "tailwindcss";
 
 @layer base {
+  :root {
+    /* Clean Color Palette - Inspired by Hevy */
+    --primary-blue: 217 91% 60%; /* Vibrant Blue - #3b82f6 */
+    --primary-blue-dark: 217 91% 50%; /* Darker Blue */
+    --success-green: 142 76% 36%; /* Success Green */
+    --dark-text: 222 47% 11%; /* Dark text */
+    --gray-text: 215 16% 47%; /* Gray text */
+    --light-bg: 0 0% 100%; /* Pure white */
+    --gray-bg: 210 40% 98%; /* Light gray */
+  }
+  
   html {
     scroll-behavior: smooth;
   }
   
   body {
-    @apply bg-gray-50 text-gray-900;
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    @apply bg-white text-gray-900;
+    -webkit-overflow-scrolling: touch;
+    letter-spacing: -0.01em;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #0f172a;
   }
   
   /* Better touch handling on mobile */
   a, button {
     touch-action: manipulation;
+  }
+  
+  /* Minimal scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2563eb;
+  }
+  
+  /* Smooth fade-in animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  .animate-slide-in-left {
+    animation: slideInLeft 0.8s ease-out forwards;
+  }
+  
+  .animate-slide-in-right {
+    animation: slideInRight 0.8s ease-out forwards;
+  }
+  
+  /* Parallax effect */
+  .parallax {
+    will-change: transform;
+  }
+}
+
+@layer utilities {
+  .text-primary {
+    color: #3b82f6;
+  }
+  
+  .bg-primary {
+    background-color: #3b82f6;
+  }
+  
+  .text-success {
+    color: #10b981;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow duration-300;
   }
 }

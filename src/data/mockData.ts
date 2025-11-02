@@ -15,7 +15,7 @@ export const membershipPlans: MembershipPlan[] = [
   },
   {
     id: 'crossfit',
-    name: 'Premium',
+    name: 'crossfit',
     price: 800,
     yearlyPrice: 7000,
     features: [
@@ -44,28 +44,14 @@ export const trainers: Trainer[] = [
     name: 'John Smith',
     specialization: 'Strength Training',
     image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400',
-    experience: 10,
+    experience: 7,
   },
   {
     id: '2',
-    name: 'Sarah Johnson',
-    specialization: 'Yoga & Flexibility',
-    image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400',
-    experience: 8,
-  },
-  {
-    id: '3',
-    name: 'Mike Davis',
-    specialization: 'Cardio & Endurance',
-    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400',
-    experience: 12,
-  },
-  {
-    id: '4',
     name: 'Emma Wilson',
     specialization: 'CrossFit & HIIT',
     image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400',
-    experience: 7,
+    experience: 10,
   },
 ];
 

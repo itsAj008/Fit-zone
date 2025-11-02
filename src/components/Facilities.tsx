@@ -12,10 +12,10 @@ const Facilities = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
             Our Facilities
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto font-normal">
             Everything you need to achieve your fitness goals under one roof
           </p>
         </motion.div>
@@ -29,7 +29,7 @@ const Facilities = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
               whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-blue-200 transition-all duration-300"
             >
               <div className="text-5xl mb-4">{facility.icon}</div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">

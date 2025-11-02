@@ -6,6 +6,7 @@ import { smoothScrollTo } from '../utils/smoothScroll';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [scrolled, setScrolled] = useState(false);
 
   const navItems = [
     { name: 'Home', href: '#home' },
@@ -16,55 +17,41 @@ const Navbar = () => {
     { name: 'Contact', href: '#contact' },
   ];
 
-
   // Track if we're handling a navigation to prevent double execution
   const isNavigatingRef = useRef(false);
 
   // Handle navigation click with smooth scroll
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement> | React.TouchEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement> | React.TouchEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    // Prevent double execution
+  
     if (isNavigatingRef.current) return;
     isNavigatingRef.current = true;
-    
+  
     const sectionId = href.slice(1);
-    
-    // Close mobile menu immediately
+    setActiveSection(sectionId); // 👈 underline moves instantly
     setIsOpen(false);
-    
-    // Update URL hash
     window.history.pushState(null, '', href);
-    setActiveSection(sectionId);
-    
-    // Scroll to section (with delay to ensure menu closes and DOM is ready)
-    setTimeout(() => {
-      smoothScrollTo(sectionId);
-      // Reset navigation flag after scroll completes
-      setTimeout(() => {
-        isNavigatingRef.current = false;
-      }, 300);
-    }, 50);
+  
+    // Smooth scroll and resume tracking after complete
+    smoothScrollTo(sectionId, () => {
+      isNavigatingRef.current = false;
+    });
   };
+  
 
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.slice(1) || 'home';
-      setActiveSection(hash);
-    };
-
-    // Set initial active section
-    handleHashChange();
-
-    // Listen for hash changes
-    window.addEventListener('hashchange', handleHashChange);
-
-    // Listen for scroll to detect section in view
+    // Handle scroll effect
     const handleScroll = () => {
+      if (isNavigatingRef.current) return; // 👈 pause updates during animation
+    
+      setScrolled(window.scrollY > 20);
       const sections = ['home', 'about', 'facilities', 'trainers', 'plans', 'contact'];
       const scrollPosition = window.scrollY + 100;
-
+    
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i]);
         if (section && section.offsetTop <= scrollPosition) {
@@ -73,8 +60,15 @@ const Navbar = () => {
         }
       }
     };
+    
+
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1) || 'home';
+      setActiveSection(hash);
+    };
 
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('hashchange', handleHashChange);
     handleScroll(); // Check on mount
 
     // Handle initial hash on page load
@@ -90,17 +84,27 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm shadow-lg">
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-md'
+          : 'bg-white'
+      }`}
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center space-x-2"
+            transition={{ delay: 0.2 }}
+            className="flex items-center space-x-3"
           >
-            <FaDumbbell className="text-red-600 text-2xl" />
-            <span className="text-2xl font-bold text-white">FitZone</span>
+            <FaDumbbell className="text-blue-600 text-2xl" />
+            <span className="text-2xl font-bold text-gray-900">Tc fitness</span>
           </motion.div>
 
           {/* Desktop Nav */}
@@ -115,11 +119,19 @@ const Navbar = () => {
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`${
                     isActive
-                      ? 'text-red-600'
-                      : 'text-gray-300 hover:text-red-300'
-                  } transition-colors duration-200 font-medium cursor-pointer touch-manipulation`}
+                      ? 'text-blue-600 font-semibold'
+                      : 'text-gray-700 hover:text-blue-600'
+                  } transition-colors duration-200 font-medium cursor-pointer touch-manipulation relative group`}
                 >
                   {item.name}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-600"
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
                 </a>
               );
             })}
@@ -128,7 +140,7 @@ const Navbar = () => {
               onClick={(e) => handleNavClick(e, '#plans')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 cursor-pointer touch-manipulation"
+              className="bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-all duration-200 cursor-pointer touch-manipulation font-semibold shadow-sm hover:shadow-md"
             >
               Join Now
             </motion.a>
@@ -137,7 +149,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-white text-2xl"
+            className="md:hidden text-gray-700 text-2xl"
           >
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
@@ -151,7 +163,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-gray-900"
+            className="md:hidden bg-white border-t border-gray-200"
           >
             <div className="container mx-auto px-4 py-4 space-y-4">
               {navItems.map((item) => {
@@ -164,9 +176,9 @@ const Navbar = () => {
                     onClick={(e) => handleNavClick(e, item.href)}
                     className={`block ${
                       isActive
-                        ? 'text-red-600'
-                        : 'text-gray-300 hover:text-red-600'
-                    } transition-colors duration-200 py-2 cursor-pointer touch-manipulation`}
+                        ? 'text-blue-600 font-semibold'
+                        : 'text-gray-700 hover:text-blue-600'
+                    } transition-all duration-300 py-3 cursor-pointer touch-manipulation border-b border-gray-100 last:border-0`}
                   >
                     {item.name}
                   </a>
@@ -175,7 +187,7 @@ const Navbar = () => {
               <a
                 href="#plans"
                 onClick={(e) => handleNavClick(e, '#plans')}
-                className="block bg-red-600 text-white px-6 py-2 rounded-lg text-center hover:bg-red-700 transition-colors duration-200 cursor-pointer touch-manipulation"
+                className="block bg-blue-600 text-white px-6 py-3 rounded-lg text-center hover:bg-blue-700 transition-all duration-200 cursor-pointer touch-manipulation font-semibold"
               >
                 Join Now
               </a>
@@ -183,9 +195,8 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 };
 
 export default Navbar;
-
