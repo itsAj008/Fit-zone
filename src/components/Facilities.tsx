@@ -1,8 +1,12 @@
 import { motion } from 'framer-motion';
 import { memo } from 'react';
-import { facilities } from '../data/mockData';
+import { useFacilities } from '../hooks/useContentful';
+import { facilities as mockFacilities } from '../data/mockData';
 
 const Facilities = memo(() => {
+  // Get facilities from Contentful or use mock data
+  const { facilities: contentfulFacilities } = useFacilities();
+  const facilities = contentfulFacilities.length > 0 ? contentfulFacilities : mockFacilities;
   return (
     <section id="facilities" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -24,7 +28,7 @@ const Facilities = memo(() => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {facilities.map((facility, index) => (
             <motion.div
-              key={facility.id}
+              key={index}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

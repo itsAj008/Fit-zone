@@ -1,5 +1,43 @@
 import type { MembershipPlan, Trainer, Testimonial, Facility } from '../types/index';
 
+// Hero content for fallback
+export const heroContent = {
+  title: "Transform Your Body, Transform Your Life",
+  subtitle: "Join hundreds of members achieving their fitness goals at TC Fitness. Where excellence meets dedication.",
+  description: "Professional fitness training with state-of-the-art equipment",
+  ctaButtonText: "Start Your Journey",
+  secondaryButtonText: "Learn More"
+};
+
+// About content for fallback
+export const aboutContent = {
+  title: "About TC Fitness",
+  subtitle: "Your Premier Fitness Destination",
+  description: "At TC Fitness, we believe that fitness is not just about working out – it's about creating a lifestyle that empowers you to be the best version of yourself. Our state-of-the-art facility, experienced trainers, and supportive community create the perfect environment for achieving your fitness goals.",
+  stats: [
+    { number: "500+", label: "Happy Members" },
+    { number: "50+", label: "Expert Trainers" },
+    { number: "5", label: "Years Experience" },
+    { number: "24/7", label: "Access Available" }
+  ]
+};
+
+// Company info for fallback
+export const companyInfo = {
+  companyName: "TC Fitness",
+  tagline: "Transform Your Body, Transform Your Life",
+  description: "TC Fitness is your premier destination for achieving your fitness goals. With state-of-the-art equipment, expert trainers, and a supportive community, we're here to help you on your fitness journey.",
+  email: "info@tcfitness.com",
+  phone: "+1 (555) 123-4567",
+  address: "123 Fitness Street, Wellness City, WC 12345",
+  socialLinks: {
+    facebook: "https://facebook.com/tcfitness",
+    instagram: "https://instagram.com/tcfitness",
+    twitter: "https://twitter.com/tcfitness",
+    linkedin: "https://linkedin.com/company/tcfitness"
+  }
+};
+
 export const membershipPlans: MembershipPlan[] = [
   {
     id: 'basic',

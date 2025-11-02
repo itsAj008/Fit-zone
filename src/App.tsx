@@ -1,56 +1,51 @@
 import { Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Facilities from './components/Facilities';
-import Trainers from './components/Trainers';
-import MembershipPlans from './components/MembershipPlans';
-// import Testimonials from './components/Testimonials';
-import Footer from './components/Footer';
-import Payment from './components/Payment';
-import SEO from './components/SEO';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { LoadingProvider } from './contexts/LoadingContext';
 import { useMembershipStore } from './store/membershipStore';
 import { Toaster } from 'react-hot-toast';
-import { lazyLoad } from './utils/performanceHelpers';
-
-// Lazy load contact form since it's at the bottom
-const LazyContactEnhanced = lazyLoad(() => import('./components/ContactEnhanced'));
+import { testContentfulConnection, testSpecificContentTypes } from './utils/contentfulTest';
 
 function App() {
   const selectedPlan = useMembershipStore((state) => state.selectedPlan);
 
+  const handleTestContentful = async () => {
+    console.clear();
+    console.log('🧪 Starting Contentful Tests...');
+    await testContentfulConnection();
+    await testSpecificContentTypes();
+  };
+
   return (
     <ErrorBoundary>
       <LoadingProvider>
-        <SEO page="home" />
         <div className="min-h-screen">
-          {/* Skip navigation link for accessibility */}
-          <a 
-            href="#main-content" 
-            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50 focus:z-50"
-          >
-            Skip to main content
-          </a>
+          {/* Development Debug Panel */}
+          {import.meta.env.DEV && (
+            <div className="fixed top-4 right-4 z-50 bg-red-500 text-white p-2 rounded shadow-lg">
+              <button 
+                onClick={handleTestContentful}
+                className="text-xs bg-red-600 hover:bg-red-700 px-2 py-1 rounded"
+              >
+                🔍 Test CMS
+              </button>
+            </div>
+          )}
           
           <Navbar />
           
           <main id="main-content" role="main">
             <Hero />
-            <About />
-            <Facilities />
-            <Trainers />
-            <MembershipPlans />
-            {/* <Testimonials /> */}
-            <Suspense fallback={<div className="h-32 flex items-center justify-center">Loading contact form...</div>}>
-              <LazyContactEnhanced />
-            </Suspense>
+            <div className="py-20 bg-gray-50 text-center">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                🎉 Components Loading Successfully!
+              </h2>
+              <p className="text-xl text-gray-600">
+                Hero and Navbar are working. Let's add more components step by step.
+              </p>
+            </div>
           </main>
-          
-          <Footer />
-          
-          {selectedPlan && <Payment />}
           
           {/* Toast notifications */}
           <Toaster 
@@ -60,16 +55,6 @@ function App() {
               style: {
                 background: '#363636',
                 color: '#fff',
-              },
-              success: {
-                style: {
-                  background: '#10B981',
-                },
-              },
-              error: {
-                style: {
-                  background: '#EF4444',
-                },
               },
             }}
           />

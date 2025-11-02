@@ -1,18 +1,38 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 import { FaUsers, FaTrophy, FaHeart, FaStar } from 'react-icons/fa';
 import { optimizeImage } from '../utils/performanceHelpers';
+import { useAboutContent } from '../hooks/useContentful';
+import { aboutContent } from '../data/mockData';
 
-const About = () => {
+const About = memo(() => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
-  const stats = [
+  // Get about content from Contentful with proper fallback handling
+  const { content: aboutContentData, loading, error } = useAboutContent();
+  
+  // Use Contentful data if available, otherwise use mock data
+  const aboutData = aboutContentData && Object.keys(aboutContentData).length > 0 
+    ? aboutContentData 
+    : aboutContent;
+
+  // Default stats icons
+  const defaultStats = [
     { icon: FaUsers, value: '500+', label: 'Active Members' },
     { icon: FaTrophy, value: '10+', label: 'Years Experience' },
     { icon: FaHeart, value: '98%', label: 'Satisfaction Rate' },
     { icon: FaStar, value: '4.7', label: 'Google Rating' },
   ];
+
+  // Use stats from CMS if available, otherwise use default
+  const stats = aboutData.stats && aboutData.stats.length > 0 
+    ? aboutData.stats.map((stat, index) => ({
+        icon: defaultStats[index % defaultStats.length].icon,
+        value: stat.number,
+        label: stat.label
+      }))
+    : defaultStats;
 
   return (
     <section id="about" className="py-20 bg-white">
@@ -25,12 +45,10 @@ const About = () => {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
-            About FitZone
+            {aboutData.title}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto font-normal">
-            We're not just a gym, we're a community dedicated to helping you
-            achieve your fitness goals with world-class facilities and expert
-            trainers.
+            {aboutData.subtitle}
           </p>
         </motion.div>
 
@@ -66,16 +84,7 @@ const About = () => {
               Your Journey to Fitness Starts Here
             </h3>
             <p className="text-gray-600 leading-relaxed text-lg">
-              At FitZone, we believe that fitness is a journey, not a
-              destination. Our state-of-the-art facility is equipped with the
-              latest equipment and staffed by certified trainers who are
-              passionate about helping you succeed.
-            </p>
-            <p className="text-gray-600 leading-relaxed text-lg">
-              Whether you're a beginner or an experienced athlete, we have
-              programs tailored to your needs. Join our community and discover
-              the difference that personalized attention and expert guidance can
-              make.
+              {aboutData.description}
             </p>
             <ul className="space-y-3">
               {[
@@ -121,6 +130,8 @@ const About = () => {
       </div>
     </section>
   );
-};
+});
+
+About.displayName = 'About';
 
 export default About;

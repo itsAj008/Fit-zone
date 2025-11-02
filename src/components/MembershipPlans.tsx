@@ -1,17 +1,28 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, memo } from 'react';
 import { useMembershipStore } from '../store/membershipStore';
-import { membershipPlans } from '../data/mockData';
 import { FaCheck } from 'react-icons/fa';
+import { useMembershipPlans } from '../hooks/useContentful';
+import { membershipPlans as mockPlans } from '../data/mockData';
 
 const MembershipPlans = memo(() => {
-  const { billingCycle, setBillingCycle, setSelectedPlan } =
-    useMembershipStore();
+  const { billingCycle, setBillingCycle, setSelectedPlan } = useMembershipStore();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+  
+  // Get membership plans from Contentful or use mock data
+  const { plans: contentfulPlans } = useMembershipPlans();
+  const membershipPlans = contentfulPlans.length > 0 ? contentfulPlans : mockPlans;
 
-  const handleJoinNow = (plan: typeof membershipPlans[0]) => {
-    setSelectedPlan(plan);
+  const handleJoinNow = (plan: any) => {
+    setSelectedPlan({
+      id: plan.id || plan.name.toLowerCase(),
+      name: plan.name,
+      price: plan.price,
+      yearlyPrice: plan.yearlyPrice,
+      features: plan.features,
+      popular: plan.popular || false
+    });
     // Payment modal will open automatically when selectedPlan is set
   };
 
@@ -75,7 +86,7 @@ const MembershipPlans = memo(() => {
 
             return (
               <motion.div
-                key={plan.id}
+                key={plan.id || plan.name}
                 initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}

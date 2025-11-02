@@ -1,9 +1,13 @@
 import { motion } from 'framer-motion';
 import { memo } from 'react';
-import { testimonials } from '../data/mockData';
+import { useTestimonials } from '../hooks/useContentful';
+import { testimonials as mockTestimonials } from '../data/mockData';
 import { FaStar } from 'react-icons/fa';
 
 const Testimonials = memo(() => {
+  // Get testimonials from Contentful or use mock data
+  const { testimonials: contentfulTestimonials } = useTestimonials();
+  const testimonials = contentfulTestimonials.length > 0 ? contentfulTestimonials : mockTestimonials;
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -25,7 +29,7 @@ const Testimonials = memo(() => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {testimonials.map((testimonial, index) => (
             <motion.div
-              key={testimonial.id}
+              key={index}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

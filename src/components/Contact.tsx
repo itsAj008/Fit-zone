@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaWhatsapp } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import emailjs from '@emailjs/browser';
-import { LoadingButton } from '../contexts/LoadingContext';
 import { 
   AppErrorHandler, 
   validateEmail, 
@@ -125,11 +123,6 @@ const Contact = () => {
       setValidationErrors(prev => ({ ...prev, [name]: '' }));
       removeErrorFromInput(`contact-${name}`);
     }
-  };
-
-  const handleRetry = () => {
-    setSubmitStatus('idle');
-    setRetryCount(0);
   };
 
   return (
