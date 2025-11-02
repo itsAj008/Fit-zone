@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaDumbbell } from 'react-icons/fa';
 
-const Footer = () => {
+const Footer = memo(() => {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -128,7 +129,9 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = 'Footer';
 
 export default Footer;
 

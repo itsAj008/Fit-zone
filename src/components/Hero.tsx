@@ -1,9 +1,9 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { FaArrowDown } from 'react-icons/fa';
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 import { smoothScrollTo } from '../utils/smoothScroll';
 
-const Hero = () => {
+const Hero = memo(() => {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -116,6 +116,8 @@ const Hero = () => {
       </motion.div>
     </section>
   );
-};
+});
+
+Hero.displayName = 'Hero';
 
 export default Hero;

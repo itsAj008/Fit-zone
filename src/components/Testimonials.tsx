@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
+import { memo } from 'react';
 import { testimonials } from '../data/mockData';
 import { FaStar } from 'react-icons/fa';
 
-const Testimonials = () => {
+const Testimonials = memo(() => {
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -52,7 +53,9 @@ const Testimonials = () => {
       </div>
     </section>
   );
-};
+});
+
+Testimonials.displayName = 'Testimonials';
 
 export default Testimonials;
 

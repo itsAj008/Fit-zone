@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
+import { memo } from 'react';
 import { facilities } from '../data/mockData';
 
-const Facilities = () => {
+const Facilities = memo(() => {
   return (
     <section id="facilities" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -42,7 +43,8 @@ const Facilities = () => {
       </div>
     </section>
   );
-};
+});
+
+Facilities.displayName = 'Facilities';
 
 export default Facilities;
-

@@ -1,7 +1,22 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaWhatsapp } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 import emailjs from '@emailjs/browser';
+import { LoadingButton } from '../contexts/LoadingContext';
+import { 
+  AppErrorHandler, 
+  validateEmail, 
+  validatePhone, 
+  validateName, 
+  validateMessage,
+  retryOperation 
+} from '../utils/errorHandler';
+import { 
+  addErrorToInput, 
+  removeErrorFromInput, 
+  announceToScreenReader 
+} from '../utils/accessibilityHelpers';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,30 +27,87 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [retryCount, setRetryCount] = useState(0);
+
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+    
+    const nameError = validateName(formData.name);
+    if (nameError) errors.name = nameError;
+    
+    const emailError = validateEmail(formData.email);
+    if (emailError) errors.email = emailError;
+    
+    const phoneError = validatePhone(formData.phone);
+    if (phoneError) errors.phone = phoneError;
+    
+    const messageError = validateMessage(formData.message);
+    if (messageError) errors.message = messageError;
+    
+    setValidationErrors(errors);
+    
+    // Update accessibility attributes
+    Object.keys(errors).forEach(field => {
+      addErrorToInput(`contact-${field}`, errors[field]);
+    });
+    
+    // Remove errors for valid fields
+    Object.keys(formData).forEach(field => {
+      if (!errors[field]) {
+        removeErrorFromInput(`contact-${field}`);
+      }
+    });
+    
+    return Object.keys(errors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      announceToScreenReader('Please correct the form errors and try again.');
+      return;
+    }
+    
     setIsSubmitting(true);
+    setSubmitStatus('idle');
 
-    // EmailJS configuration (you'll need to set this up)
-    // For now, we'll simulate the submission
     try {
-      // Replace these with your actual EmailJS credentials
-      // const result = await emailjs.send(
-      //   'YOUR_SERVICE_ID',
-      //   'YOUR_TEMPLATE_ID',
-      //   formData,
-      //   'YOUR_PUBLIC_KEY'
-      // );
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await retryOperation(async () => {
+        // EmailJS configuration (you'll need to set this up)
+        // For now, we'll simulate the submission
+        await new Promise((resolve, reject) => {
+          setTimeout(() => {
+            // Simulate random failures for testing
+            if (Math.random() > 0.7 && retryCount < 2) {
+              reject(new Error('Network timeout'));
+            } else {
+              resolve(true);
+            }
+          }, 1000);
+        });
+      }, 3, 1000);
 
       setSubmitStatus('success');
       setFormData({ name: '', email: '', phone: '', message: '' });
+      setValidationErrors({});
+      setRetryCount(0);
+      
+      toast.success('Message sent successfully! We\'ll get back to you soon.');
+      announceToScreenReader('Your message has been sent successfully. We will get back to you soon.');
+      
       setTimeout(() => setSubmitStatus('idle'), 5000);
     } catch (error) {
+      const appError = AppErrorHandler.handleNetworkError(error);
+      const userMessage = AppErrorHandler.getUserFriendlyMessage(appError);
+      
       setSubmitStatus('error');
+      setRetryCount(prev => prev + 1);
+      
+      toast.error(userMessage);
+      announceToScreenReader(`Error: ${userMessage}`);
+      
       setTimeout(() => setSubmitStatus('idle'), 5000);
     } finally {
       setIsSubmitting(false);
@@ -45,7 +117,19 @@ const Contact = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    // Clear validation error when user starts typing
+    if (validationErrors[name]) {
+      setValidationErrors(prev => ({ ...prev, [name]: '' }));
+      removeErrorFromInput(`contact-${name}`);
+    }
+  };
+
+  const handleRetry = () => {
+    setSubmitStatus('idle');
+    setRetryCount(0);
   };
 
   return (
