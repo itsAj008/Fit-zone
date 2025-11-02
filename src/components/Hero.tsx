@@ -66,7 +66,7 @@ const Hero = () => {
             transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
             className="text-xl md:text-2xl text-gray-600 mb-12 font-normal max-w-2xl mx-auto leading-relaxed"
           >
-            Join thousands of members achieving their fitness goals at FitZone.
+            Join hundreds of members achieving their fitness goals at Tc fitness.
             <span className="block mt-3 text-gray-700 font-medium">Where excellence meets dedication.</span>
           </motion.p>
           <motion.div

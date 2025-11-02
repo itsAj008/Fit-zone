@@ -104,7 +104,7 @@ const Navbar = () => {
             className="flex items-center space-x-3"
           >
             <FaDumbbell className="text-blue-600 text-2xl" />
-            <span className="text-2xl font-bold text-gray-900">FitZone</span>
+            <span className="text-2xl font-bold text-gray-900">Tc fitness</span>
           </motion.div>
 
           {/* Desktop Nav */}

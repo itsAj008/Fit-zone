@@ -1,16 +1,16 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { FaUsers, FaTrophy, FaHeart, FaClock } from 'react-icons/fa';
+import { FaUsers, FaTrophy, FaHeart, FaStar } from 'react-icons/fa';
 
 const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   const stats = [
-    { icon: FaUsers, value: '5000+', label: 'Active Members' },
-    { icon: FaTrophy, value: '15+', label: 'Years Experience' },
+    { icon: FaUsers, value: '500+', label: 'Active Members' },
+    { icon: FaTrophy, value: '10+', label: 'Years Experience' },
     { icon: FaHeart, value: '98%', label: 'Satisfaction Rate' },
-    { icon: FaClock, value: '24/7', label: 'Gym Access' },
+    { icon: FaStar, value: '4.7', label: 'Gogggle Rating' },
   ];
 
   return (
@@ -47,7 +47,7 @@ const About = () => {
               className="rounded-2xl shadow-lg"
             />
             <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white p-6 rounded-xl shadow-xl">
-              <div className="text-3xl font-bold">15+</div>
+              <div className="text-3xl font-bold">10+</div>
               <div className="text-sm">Years Experience</div>
             </div>
           </motion.div>
