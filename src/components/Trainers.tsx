@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { trainers } from '../data/mockData';
 import { FaStar } from 'react-icons/fa';
+import { optimizeImage } from '../utils/performanceHelpers';
 
 const Trainers = () => {
   return (
@@ -32,13 +33,16 @@ const Trainers = () => {
               whileHover={{ y: -10, transition: { duration: 0.3 } }}
               className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all duration-300"
             >
-              <div className="relative h-64 overflow-hidden">
+                            <div className="relative h-64 overflow-hidden">
                 <img
-                  src={trainer.image}
+                  src={optimizeImage(trainer.image, 400, 300, 80)}
                   alt={trainer.name}
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  width="400"
+                  height="300"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 text-white">
                   <h3 className="text-2xl font-bold mb-1">{trainer.name}</h3>
                   <p className="text-sm text-gray-200">

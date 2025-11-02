@@ -6,7 +6,7 @@ export const smoothScrollTo = (elementId: string, onComplete?: () => void) => {
   const targetY = element.getBoundingClientRect().top + window.scrollY - navHeight;
   const startY = window.scrollY;
   const distance = targetY - startY;
-  const duration = 350;
+  const duration = 150; // Reduced from 350ms to 150ms for near-instant scrolling
   const startTime = performance.now();
 
   const easeInOutCubic = (t: number) =>

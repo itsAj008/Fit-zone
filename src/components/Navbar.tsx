@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBars, FaTimes, FaDumbbell } from 'react-icons/fa';
 import { smoothScrollTo } from '../utils/smoothScroll';
 
-const Navbar = () => {
+const Navbar = memo(() => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [scrolled, setScrolled] = useState(false);
@@ -29,36 +29,53 @@ const Navbar = () => {
     e.stopPropagation();
   
     if (isNavigatingRef.current) return;
-    isNavigatingRef.current = true;
-  
+    
     const sectionId = href.slice(1);
-    setActiveSection(sectionId); // 👈 underline moves instantly
+    
+    // Immediately update active section for instant visual feedback
+    setActiveSection(sectionId);
     setIsOpen(false);
     window.history.pushState(null, '', href);
+    
+    // Set navigation flag to prevent scroll listener interference
+    isNavigatingRef.current = true;
   
     // Smooth scroll and resume tracking after complete
     smoothScrollTo(sectionId, () => {
-      isNavigatingRef.current = false;
+      // Reduced delay to match faster scroll animation
+      setTimeout(() => {
+        isNavigatingRef.current = false;
+      }, 50); // Reduced from 100ms to 50ms
     });
   };
   
 
   useEffect(() => {
-    // Handle scroll effect
+    let scrollTimeout: number;
+    
+    // Handle scroll effect with throttling
     const handleScroll = () => {
-      if (isNavigatingRef.current) return; // 👈 pause updates during animation
+      // Don't update active section during navigation animation
+      if (isNavigatingRef.current) return;
     
       setScrolled(window.scrollY > 20);
-      const sections = ['home', 'about', 'facilities', 'trainers', 'plans', 'contact'];
-      const scrollPosition = window.scrollY + 100;
-    
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i]);
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i]);
-          break;
+      
+      // Throttle the active section updates to reduce interference
+      clearTimeout(scrollTimeout);
+      scrollTimeout = window.setTimeout(() => {
+        if (isNavigatingRef.current) return; // Double-check before updating
+        
+        const sections = ['home', 'about', 'facilities', 'trainers', 'plans', 'contact'];
+        const scrollPosition = window.scrollY + 150; // Increased threshold for better detection
+      
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const section = document.getElementById(sections[i]);
+          if (section && section.offsetTop <= scrollPosition) {
+            setActiveSection(sections[i]);
+            break;
+          }
         }
-      }
+      }, 50); // 50ms throttle
     };
     
 
@@ -80,6 +97,7 @@ const Navbar = () => {
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
       window.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout); // Clean up timeout
     };
   }, []);
 
@@ -129,7 +147,12 @@ const Navbar = () => {
                       layoutId="activeTab"
                       className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-600"
                       initial={false}
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 500, 
+                        damping: 35,
+                        mass: 0.8
+                      }}
                     />
                   )}
                 </a>
@@ -197,6 +220,8 @@ const Navbar = () => {
       </AnimatePresence>
     </motion.nav>
   );
-};
+});
+
+Navbar.displayName = 'Navbar';
 
 export default Navbar;

@@ -1,10 +1,10 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 import { useMembershipStore } from '../store/membershipStore';
 import { membershipPlans } from '../data/mockData';
 import { FaCheck } from 'react-icons/fa';
 
-const MembershipPlans = () => {
+const MembershipPlans = memo(() => {
   const { billingCycle, setBillingCycle, setSelectedPlan } =
     useMembershipStore();
   const ref = useRef(null);
@@ -135,6 +135,8 @@ const MembershipPlans = () => {
       </div>
     </section>
   );
-};
+});
+
+MembershipPlans.displayName = 'MembershipPlans';
 
 export default MembershipPlans;

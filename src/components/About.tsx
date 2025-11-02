@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { FaUsers, FaTrophy, FaHeart, FaStar } from 'react-icons/fa';
+import { optimizeImage } from '../utils/performanceHelpers';
 
 const About = () => {
   const ref = useRef(null);
@@ -10,7 +11,7 @@ const About = () => {
     { icon: FaUsers, value: '500+', label: 'Active Members' },
     { icon: FaTrophy, value: '10+', label: 'Years Experience' },
     { icon: FaHeart, value: '98%', label: 'Satisfaction Rate' },
-    { icon: FaStar, value: '4.7', label: 'Gogggle Rating' },
+    { icon: FaStar, value: '4.7', label: 'Google Rating' },
   ];
 
   return (
@@ -42,9 +43,12 @@ const About = () => {
             className="relative"
           >
             <img
-              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800"
+              src={optimizeImage("https://images.unsplash.com/photo-1534438327276-14e5300c3a48", 800, 600, 80)}
               alt="Gym interior"
               className="rounded-2xl shadow-lg"
+              loading="lazy"
+              width="800"
+              height="600"
             />
             <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white p-6 rounded-xl shadow-xl">
               <div className="text-3xl font-bold">10+</div>
