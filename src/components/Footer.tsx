@@ -12,7 +12,7 @@ const Footer = memo(() => {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <FaDumbbell className="text-red-600 text-2xl" />
-              <span className="text-2xl font-bold">FitZone</span>
+              <span className="text-2xl font-bold">Tc fitness</span>
             </div>
             <p className="text-gray-400 mb-4">
               Transform your body, transform your life. Join us on your fitness journey today.
@@ -98,7 +98,7 @@ const Footer = memo(() => {
                   Contact Us
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a href="#" className="text-gray-400 hover:text-red-600 transition-colors duration-200">
                   FAQ
                 </a>
@@ -107,7 +107,7 @@ const Footer = memo(() => {
                 <a href="#" className="text-gray-400 hover:text-red-600 transition-colors duration-200">
                   Terms & Conditions
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -115,16 +115,15 @@ const Footer = memo(() => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
             <ul className="space-y-2 text-gray-400">
-              <li>123 Fitness Street</li>
-              <li>Health City, HC 12345</li>
-              <li>Phone: +1 (555) 123-4567</li>
-              <li>Email: info@fitzone.com</li>
+              <li>Jaga Jyothi, Old LIC Building,</li>
+              <li>Bangalore - Honnavar Hwy, Tarikere,</li>
+              <li>Karnataka 577228</li> 
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
-          <p>&copy; {currentYear} FitZone. All rights reserved.</p>
+          <p>&copy; {currentYear} Tc fitness. All rights reserved.</p>
         </div>
       </div>
     </footer>

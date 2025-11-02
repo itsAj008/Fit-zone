@@ -94,7 +94,7 @@ const MembershipPlans = memo(() => {
                 <div className="text-center mb-6">
                   <h3 className="text-2xl font-bold mb-2 text-gray-900">{plan.name}</h3>
                   <div className="mb-4">
-                    <span className="text-5xl font-bold text-gray-900">{displayPrice}</span>
+                    <span className="text-3xl font-bold text-gray-900">{displayPrice}</span>
                     {billingCycle === 'yearly' && (
                       <span className="text-gray-400 ml-2 line-through text-lg">
                         ₹{plan.price * 12}

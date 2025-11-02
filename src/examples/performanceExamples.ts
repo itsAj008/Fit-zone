@@ -14,13 +14,13 @@ export const LazyTestimonials = lazyLoad(() =>
   import('../components/TestimonialsEnhanced')
 );
 
-export const LazyPricingCalculator = lazyLoad(() => 
-  import('../components/PricingCalculator')
-);
+// export const LazyPricingCalculator = lazyLoad(() => 
+//   import('../components/PricingCalculator')
+// );
 
-export const LazyGallery = lazyLoad(() => 
-  import('../components/Gallery')
-);
+// export const LazyGallery = lazyLoad(() => 
+//   import('../components/Gallery')
+// );
 
 // ========================================
 // 2. IMAGE OPTIMIZATION
@@ -221,8 +221,8 @@ export const checkPerformanceBudget = (metric: string, value: number) => {
 
 export default {
   LazyTestimonials,
-  LazyPricingCalculator,
-  LazyGallery,
+//   LazyPricingCalculator,
+//   LazyGallery,
   getOptimizedTrainerImage,
   getOptimizedHeroImage,
   getOptimizedFacilityImage,

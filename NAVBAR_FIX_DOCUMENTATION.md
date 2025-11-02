@@ -46,7 +46,7 @@ const handleNavClick = (e, href) => {
 };
 ```
 
-### 2. **Navigation State Management**
+### 2. **Navigation State Management**  <>-----<>-----<> used
 ```typescript
 // Flag to prevent scroll interference during navigation
 const isNavigatingRef = useRef(false);
@@ -66,7 +66,7 @@ const handleNavClick = (e, href) => {
 };
 ```
 
-### 3. **Protected Scroll Listener**
+### 3. **Protected Scroll Listener**.  <>-----<>-----<> used
 ```typescript
 // BEFORE: Always updated active section
 const handleScroll = () => {
@@ -84,7 +84,7 @@ const handleScroll = () => {
 };
 ```
 
-### 4. **Throttled Updates**
+### 4. **Throttled Updates**.  <>-----<>-----<> used
 ```typescript
 // Added throttling to reduce interference
 let scrollTimeout: number;
