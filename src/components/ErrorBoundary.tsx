@@ -19,14 +19,30 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error): State {
+    // Don't catch Contentful or framer-motion related errors - let components handle them gracefully
+    const errorMessage = error.message.toLowerCase();
+    if (errorMessage.includes('contentful') || 
+        errorMessage.includes('target ref is defined but not hydrated') ||
+        errorMessage.includes('framer-motion') ||
+        errorMessage.includes('motion.dev')) {
+      return { hasError: false };
+    }
+    
     return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
-    if (this.props.onError) {
-      this.props.onError(error, errorInfo);
+    // Only log truly critical errors, not CMS or animation related ones
+    const errorMessage = error.message.toLowerCase();
+    if (!errorMessage.includes('contentful') && 
+        !errorMessage.includes('target ref is defined but not hydrated') &&
+        !errorMessage.includes('framer-motion') &&
+        !errorMessage.includes('motion.dev')) {
+      console.error('ErrorBoundary caught a critical error:', error, errorInfo);
+      
+      if (this.props.onError) {
+        this.props.onError(error, errorInfo);
+      }
     }
   }
 

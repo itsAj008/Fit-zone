@@ -11,7 +11,7 @@ const Footer = memo(() => {
           {/* Brand */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <FaDumbbell className="text-red-600 text-2xl" />
+              <FaDumbbell className="text-blue-600 text-2xl" />
               <span className="text-2xl font-bold">Tc fitness</span>
             </div>
             <p className="text-gray-400 mb-4">

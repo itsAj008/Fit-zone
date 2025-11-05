@@ -1,21 +1,33 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { FaUsers, FaTrophy, FaHeart, FaStar } from 'react-icons/fa';
+import { useRef, memo } from 'react';
 import { optimizeImage } from '../utils/performanceHelpers';
+import { useAboutContent } from "../hooks/useContentfulQuery";
+import { aboutContent } from '../data/mockData';
 
-const About = () => {
+const About = memo(() => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
-  const stats = [
-    { icon: FaUsers, value: '500+', label: 'Active Members' },
-    { icon: FaTrophy, value: '10+', label: 'Years Experience' },
-    { icon: FaHeart, value: '98%', label: 'Satisfaction Rate' },
-    { icon: FaStar, value: '4.7', label: 'Google Rating' },
-  ];
+  // Use React Query hook to fetch about content when component mounts
+  const { data: cmsData } = useAboutContent();
+
+  // Use CMS data with field-level fallbacks to mock data
+  const aboutData = {
+    title: cmsData?.title || aboutContent.title,
+    subtitle: cmsData?.subtitle || aboutContent.subtitle,
+    description: cmsData?.description || aboutContent.description,
+    stats: cmsData?.stats || aboutContent.stats
+  };
+
+  // Normalize stats data structure (CMS uses 'number', mock data uses 'value')
+  const stats = aboutData.stats.map((stat: any, index: number) => ({
+    icon: stat.icon || aboutContent.stats[index % aboutContent.stats.length].icon,
+    value: stat.value || stat.number, // Handle both CMS (number) and mock data (value)
+    label: stat.label
+  }));
 
   return (
-    <section id="about" className="py-20 bg-white">
+    <section id="about" className="py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -24,13 +36,11 @@ const About = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
-            About FitZone
+          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+            {aboutData.title}
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto font-normal">
-            We're not just a gym, we're a community dedicated to helping you
-            achieve your fitness goals with world-class facilities and expert
-            trainers.
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto font-normal">
+            {aboutData.subtitle}
           </p>
         </motion.div>
 
@@ -62,20 +72,11 @@ const About = () => {
             transition={{ duration: 0.6 }}
             className="space-y-6"
           >
-            <h3 className="text-3xl md:text-4xl font-bold text-gray-900">
+            <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
               Your Journey to Fitness Starts Here
             </h3>
-            <p className="text-gray-600 leading-relaxed text-lg">
-              At FitZone, we believe that fitness is a journey, not a
-              destination. Our state-of-the-art facility is equipped with the
-              latest equipment and staffed by certified trainers who are
-              passionate about helping you succeed.
-            </p>
-            <p className="text-gray-600 leading-relaxed text-lg">
-              Whether you're a beginner or an experienced athlete, we have
-              programs tailored to your needs. Join our community and discover
-              the difference that personalized attention and expert guidance can
-              make.
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+              {aboutData.description}
             </p>
             <ul className="space-y-3">
               {[
@@ -90,7 +91,7 @@ const About = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.4 }}
-                  className="flex items-center text-gray-700 font-medium"
+                  className="flex items-center text-gray-700 dark:text-gray-300 font-medium"
                 >
                   <span className="text-green-500 mr-3 text-xl font-bold">✓</span>
                   {item}
@@ -108,19 +109,21 @@ const About = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="text-center p-8 bg-white border border-gray-200 rounded-xl hover:shadow-lg hover:border-blue-200 transition-all duration-300"
+              className="text-center p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:shadow-lg hover:border-blue-200 dark:hover:border-blue-400 transition-all duration-300"
             >
-              <stat.icon className="text-4xl text-blue-600 mx-auto mb-4" />
-              <div className="text-4xl font-bold text-gray-900 mb-2">
+              <stat.icon className="text-4xl text-blue-600 dark:text-blue-400 mx-auto mb-4" />
+              <div className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
                 {stat.value}
               </div>
-              <div className="text-gray-600 font-medium">{stat.label}</div>
+              <div className="text-gray-600 dark:text-gray-300 font-medium">{stat.label}</div>
             </motion.div>
           ))}
         </div>
       </div>
     </section>
   );
-};
+});
+
+About.displayName = 'About';
 
 export default About;
