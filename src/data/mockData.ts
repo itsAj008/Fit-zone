@@ -1,4 +1,5 @@
 import type { MembershipPlan, Trainer, Testimonial, Facility } from '../types/index';
+import { FaUsers, FaTrophy, FaHeart, FaStar } from 'react-icons/fa';
 
 // Hero content for fallback
 export const heroContent = {
@@ -15,12 +16,13 @@ export const aboutContent = {
   subtitle: "Your Premier Fitness Destination",
   description: "At TC Fitness, we believe that fitness is not just about working out – it's about creating a lifestyle that empowers you to be the best version of yourself. Our state-of-the-art facility, experienced trainers, and supportive community create the perfect environment for achieving your fitness goals.",
   stats: [
-    { number: "500+", label: "Happy Members" },
-    { number: "50+", label: "Expert Trainers" },
-    { number: "5", label: "Years Experience" },
-    { number: "24/7", label: "Access Available" }
+    { icon: FaUsers, value: '500+', label: 'Active Members' },
+    { icon: FaTrophy, value: '10+', label: 'Years Experience' },
+    { icon: FaHeart, value: '98%', label: 'Satisfaction Rate' },
+    { icon: FaStar, value: '4.7', label: 'Google Rating' },
   ]
 };
+
 
 // Company info for fallback
 export const companyInfo = {
@@ -127,7 +129,7 @@ export const testimonials: Testimonial[] = [
 export const facilities: Facility[] = [
   {
     id: '1',
-    name: 'State-of-the-art Equipment',
+    name: 'Strength Training',
     icon: '💪',
     description: 'Latest cardio and strength training equipment',
   },
@@ -151,7 +153,7 @@ export const facilities: Facility[] = [
   },
   {
     id: '5',
-    name: 'morning 5-9 am and evening 5-9 pm',
+    name: '5-9am and 5-9pm',
     icon: '⏰',
     description: 'Available for all members',
   },

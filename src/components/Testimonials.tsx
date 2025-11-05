@@ -1,13 +1,34 @@
 import { motion } from 'framer-motion';
 import { memo } from 'react';
-import { useTestimonials } from '../hooks/useContentful';
+import { useTestimonials } from '../hooks/useContentfulQuery';
 import { testimonials as mockTestimonials } from '../data/mockData';
 import { FaStar } from 'react-icons/fa';
 
 const Testimonials = memo(() => {
-  // Get testimonials from Contentful or use mock data
-  const { testimonials: contentfulTestimonials } = useTestimonials();
-  const testimonials = contentfulTestimonials.length > 0 ? contentfulTestimonials : mockTestimonials;
+  // Use React Query hook to fetch testimonials when component mounts
+  const { data: cmsData, isLoading, error } = useTestimonials();
+
+  // Use CMS data with fallback to mock data
+  const testimonials = cmsData && cmsData.length > 0 ? cmsData : mockTestimonials;
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4 text-center">
+          <div className="animate-pulse">
+            <div className="h-12 bg-gray-300 rounded mb-4 max-w-md mx-auto"></div>
+            <div className="h-6 bg-gray-300 rounded mb-8 max-w-2xl mx-auto"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    console.error('Testimonials CMS Error:', error);
+  }
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -27,7 +48,7 @@ const Testimonials = memo(() => {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {testimonials.map((testimonial, index) => (
+          {testimonials.map((testimonial: any, index: number) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}

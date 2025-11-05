@@ -126,7 +126,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="contact" className="py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -135,10 +135,10 @@ const Contact = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Get In Touch
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Have questions? We'd love to hear from you. Send us a message and
             we'll respond as soon as possible.
           </p>
@@ -154,17 +154,17 @@ const Contact = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                 Contact Information
               </h3>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="bg-red-600 p-3 rounded-lg">
+                  <div className="bg-red-500 p-3 rounded-lg">
                     <FaMapMarkerAlt className="text-white text-xl" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">Address</h4>
-                    <p className="text-gray-600">
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Address</h4>
+                    <p className="text-gray-600 dark:text-gray-300">
                       Jaga Jyothi, Old LIC Building,<br />
                       Bangalore - Honnavar Hwy, Tarikere,<br />
                       Karnataka 577228
@@ -172,29 +172,29 @@ const Contact = () => {
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="bg-red-600 p-3 rounded-lg">
+                  <div className="bg-red-500 p-3 rounded-lg">
                     <FaPhone className="text-white text-xl" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">Phone</h4>
-                    <p className="text-gray-600">+1 (555) 123-4567</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Phone</h4>
+                    <p className="text-gray-600 dark:text-gray-300">+1 (555) 123-4567</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="bg-red-600 p-3 rounded-lg">
+                  <div className="bg-red-500 p-3 rounded-lg">
                     <FaEnvelope className="text-white text-xl" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
-                    <p className="text-gray-600">info@fitzone.com</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Email</h4>
+                    <p className="text-gray-600 dark:text-gray-300">info@fitzone.com</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Quick Contact Buttons */}
-            <div className="pt-8 border-t">
-              <h4 className="font-semibold text-gray-900 mb-4">Quick Contact</h4>
+            <div className="pt-8 border-t border-gray-200 dark:border-gray-700">
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Quick Contact</h4>
               <div className="flex flex-col sm:flex-row gap-4">
                 <motion.a
                   href="https://wa.me/15551234567"
@@ -211,7 +211,7 @@ const Contact = () => {
                   href="tel:+15551234567"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center justify-center space-x-2 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors duration-200"
+                  className="flex items-center justify-center space-x-2 bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors duration-200"
                 >
                   <FaPhone />
                   <span>Call Now</span>
@@ -237,7 +237,7 @@ const Contact = () => {
                 href="https://maps.app.goo.gl/iFkj9NYzsBFBMpvEA"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block mt-2 text-sm text-red-600 hover:text-red-700 text-center"
+                className="block mt-2 text-sm text-blue-600 hover:text-red-700 dark:text-blue-400 dark:hover:text-red-300 text-center"
               >
                 View on Google Maps →
               </a>
@@ -255,7 +255,7 @@ const Contact = () => {
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                 >
                   Name
                 </label>
@@ -266,14 +266,14 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
                   placeholder="Your name"
                 />
               </div>
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                 >
                   Email
                 </label>
@@ -284,14 +284,14 @@ const Contact = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
                   placeholder="your.email@example.com"
                 />
               </div>
               <div>
                 <label
                   htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                 >
                   Phone
                 </label>
@@ -302,14 +302,14 @@ const Contact = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all"
                   placeholder="+91 9000000000"
                 />
               </div>
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                 >
                   Message
                 </label>
@@ -320,7 +320,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all resize-none"
                   placeholder="Your message..."
                 />
               </div>
@@ -328,7 +328,7 @@ const Contact = () => {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="p-4 bg-green-100 text-green-700 rounded-lg"
+                  className="p-4 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-lg"
                 >
                   Thank you! Your message has been sent successfully.
                 </motion.div>
@@ -337,7 +337,7 @@ const Contact = () => {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="p-4 bg-red-100 text-red-700 rounded-lg"
+                  className="p-4 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 rounded-lg"
                 >
                   Something went wrong. Please try again.
                 </motion.div>
@@ -347,7 +347,7 @@ const Contact = () => {
                 disabled={isSubmitting}
                 whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
                 whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
-                className="w-full bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </motion.button>

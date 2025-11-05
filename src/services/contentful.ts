@@ -5,14 +5,29 @@ const spaceId = import.meta.env.VITE_CONTENTFUL_SPACE_ID;
 const accessToken = import.meta.env.VITE_CONTENTFUL_ACCESS_TOKEN;
 const environment = import.meta.env.VITE_CONTENTFUL_ENVIRONMENT || 'master';
 
-const isContentfulConfigured = spaceId && accessToken && spaceId !== 'your_space_id_here' && accessToken !== 'your_access_token_here';
-
-// Initialize Contentful client only if properly configured
-const client = isContentfulConfigured ? createClient({
+// Initialize Contentful client
+const client = createClient({
   space: spaceId,
   accessToken: accessToken,
   environment: environment
-}) : null;
+});
+
+// Helper function to extract text from rich text content
+const extractTextFromRichText = (richTextData: any): string => {
+  if (!richTextData || !richTextData.content) return '';
+  
+  let text = '';
+  const extractText = (node: any) => {
+    if (node.nodeType === 'text') {
+      text += node.value;
+    } else if (node.content) {
+      node.content.forEach(extractText);
+    }
+  };
+  
+  richTextData.content.forEach(extractText);
+  return text.trim();
+};
 
 // Type definitions for Contentful entries
 export interface ContentfulAsset {
@@ -34,61 +49,61 @@ export interface ContentfulAsset {
 }
 
 export interface HeroContent {
-  title: string;
-  subtitle: string;
-  description: string;
-  ctaButtonText: string;
-  secondaryButtonText: string;
+  title: string | null;
+  subtitle: string | null;
+  description: string | null;
+  ctaButtonText: string | null;
+  secondaryButtonText: string | null;
   backgroundImage?: ContentfulAsset;
 }
 
 export interface AboutContent {
-  title: string;
-  subtitle: string;
-  description: string;
+  title: string | null;
+  subtitle: string | null;
+  description: string | null;
   stats: Array<{
     number: string;
     label: string;
-  }>;
+  }> | null;
   image?: ContentfulAsset;
 }
 
 export interface FacilityContent {
-  name: string;
-  description: string;
-  icon: string;
+  name: string | null;
+  description: string | null;
+  icon: string | null;
 }
 
 export interface TrainerContent {
-  name: string;
-  specialization: string;
-  experience: string;
+  name: string | null;
+  specialization: string | null;
+  experience: string | null;
   image?: ContentfulAsset;
 }
 
 export interface MembershipPlanContent {
   id?: string;
-  name: string;
-  price: number;
-  yearlyPrice: number;
-  features: string[];
-  popular: boolean;
+  name: string | null;
+  price: number | null;
+  yearlyPrice: number | null;
+  features: string[] | null;
+  popular: boolean | null;
 }
 
 export interface TestimonialContent {
-  name: string;
-  comment: string;
-  rating: number;
-  plan: string;
+  name: string | null;
+  comment: string | null;
+  rating: number | null;
+  plan: string | null;
 }
 
 export interface CompanyInfoContent {
-  companyName: string;
-  tagline: string;
-  description: string;
-  email: string;
-  phone: string;
-  address: string;
+  companyName: string | null;
+  tagline: string | null;
+  description: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
   socialLinks: {
     facebook?: string;
     instagram?: string;
@@ -107,18 +122,27 @@ export const contentfulService = {
         return null;
       }
       
-      // Get the specific entry by ID
-      const entry = await client.getEntry('1jXYCTqMvQX8P92BwZnPYY');
+      // Get entries of tcFitness content type
+      const response = await client.getEntries({
+        content_type: 'tcFitness',
+        limit: 1
+      });
       
-      if (entry && entry.fields) {
-        console.log('Contentful entry received:', entry.fields);
+      console.log('Full Contentful response:', response);
+      
+      if (response.items && response.items.length > 0) {
+        const entry = response.items[0];
+        console.log('Entry fields:', entry.fields);
+        
+        const fields = entry.fields;
+        
         return {
-          title: entry.fields.title as string || 'Transform Your Body, Transform Your Life',
-          subtitle: entry.fields.subtitle as string || 'Join TC Fitness',
-          description: entry.fields.description as string || 'Professional fitness training',
-          ctaButtonText: entry.fields.ctaButtonText as string || 'Start Your Journey',
-          secondaryButtonText: entry.fields.secondaryButtonText as string || 'Learn More',
-          backgroundImage: entry.fields.backgroundImage as ContentfulAsset
+          title: fields.title as string || null,
+          subtitle: fields.subtitle as string || null,
+          description: extractTextFromRichText(fields.description) || null,
+          ctaButtonText: fields.ctaButtonText as string || null,
+          secondaryButtonText: fields.secondaryButtonText as string || null,
+          backgroundImage: fields.backgroundImage as ContentfulAsset
         };
       }
       return null;
@@ -136,15 +160,21 @@ export const contentfulService = {
         return null;
       }
       
-      const entry = await client.getEntry('1jXYCTqMvQX8P92BwZnPYY');
+      const response = await client.getEntries({
+        content_type: 'tcFitness',
+        limit: 1
+      });
       
-      if (entry && entry.fields) {
+      if (response.items && response.items.length > 0) {
+        const entry = response.items[0];
+        const fields = entry.fields;
+        
         return {
-          title: entry.fields.aboutTitle as string || 'About TC Fitness',
-          subtitle: entry.fields.aboutSubtitle as string || 'Your Premier Fitness Destination',
-          description: entry.fields.aboutDescription as string || 'Professional fitness training',
-          stats: entry.fields.aboutStats as Array<{number: string, label: string}> || [],
-          image: entry.fields.aboutImage as ContentfulAsset
+          title: fields.aboutTitle as string || null,
+          subtitle: fields.aboutSubtitle as string || null,
+          description: extractTextFromRichText(fields.aboutDescription) || null,
+          stats: fields.aboutStats as Array<{number: string, label: string}> || null,
+          image: fields.aboutImage as ContentfulAsset || null
         };
       }
       return null;
@@ -154,7 +184,7 @@ export const contentfulService = {
     }
   },
 
-    // Get facilities (Note: Add facility fields to tcFitness content type if needed)
+  // Get facilities
   async getFacilities(): Promise<FacilityContent[]> {
     try {
       if (!client) {
@@ -162,9 +192,26 @@ export const contentfulService = {
         return [];
       }
       
-      // Since facilities are not in your current content type, return empty array
-      // You can add facility fields to tcFitness content type later
-      console.log('Facilities not configured in tcFitness content type, using mock data');
+      const response = await client.getEntries({
+        content_type: 'tcFitness',
+        limit: 1
+      });
+      
+      if (response.items && response.items.length > 0) {
+        const entry = response.items[0];
+        const fields = entry.fields;
+        
+        if (fields.facilities && Array.isArray(fields.facilities)) {
+          const facilitiesData = fields.facilities as any[];
+          return facilitiesData.map(facility => ({
+            name: facility.fields?.facilityName || facility.name || null,
+            description: facility.fields?.facilityDescription || facility.description || null,
+            icon: facility.fields?.facilityIcon || facility.icon || null
+          }));
+        }
+      }
+      
+      // Return empty array if no facilities in CMS, components will use mock data
       return [];
     } catch (error) {
       console.error('Error fetching facilities:', error);
@@ -172,7 +219,7 @@ export const contentfulService = {
     }
   },
 
-  // Get testimonials (Note: Add testimonial fields to tcFitness content type if needed)
+  // Get testimonials
   async getTestimonials(): Promise<TestimonialContent[]> {
     try {
       if (!client) {
@@ -180,9 +227,27 @@ export const contentfulService = {
         return [];
       }
       
-      // Since testimonials are not in your current content type, return empty array
-      // You can add testimonial fields to tcFitness content type later
-      console.log('Testimonials not configured in tcFitness content type, using mock data');
+      const response = await client.getEntries({
+        content_type: 'tcFitness',
+        limit: 1
+      });
+      
+      if (response.items && response.items.length > 0) {
+        const entry = response.items[0];
+        const fields = entry.fields;
+        
+        if (fields.testimonials && Array.isArray(fields.testimonials)) {
+          const testimonialsData = fields.testimonials as any[];
+          return testimonialsData.map(testimonial => ({
+            name: testimonial.fields?.testimonialName || testimonial.name || null,
+            comment: testimonial.fields?.testimonialComment || testimonial.comment || null,
+            rating: testimonial.fields?.testimonialRating || testimonial.rating || null,
+            plan: testimonial.fields?.testimonialPlan || testimonial.plan || null
+          }));
+        }
+      }
+      
+      // Return empty array if no testimonials in CMS, components will use mock data
       return [];
     } catch (error) {
       console.error('Error fetching testimonials:', error);
@@ -190,7 +255,7 @@ export const contentfulService = {
     }
   },
 
-  // Get company info (Note: Add company fields to tcFitness content type if needed)
+  // Get company info
   async getCompanyInfo(): Promise<CompanyInfoContent | null> {
     try {
       if (!client) {
@@ -198,12 +263,37 @@ export const contentfulService = {
         return null;
       }
       
-      // Since company info is not in your current content type, return null
-      // You can add company info fields to tcFitness content type later
-      console.log('Company info not configured in tcFitness content type, using mock data');
+      const response = await client.getEntries({
+        content_type: 'tcFitness',
+        limit: 1
+      });
+      
+      if (response.items && response.items.length > 0) {
+        const entry = response.items[0];
+        const fields = entry.fields;
+        
+        if (fields.companyName || fields.companyInfo) {
+          return {
+            companyName: fields.companyName as string || null,
+            tagline: fields.companyTagline as string || null,
+            description: extractTextFromRichText(fields.companyDescription) || null,
+            email: fields.companyEmail as string || null,
+            phone: fields.companyPhone as string || null,
+            address: fields.companyAddress as string || null,
+            socialLinks: {
+              facebook: fields.facebookLink as string || '',
+              instagram: fields.instagramLink as string || '',
+              twitter: fields.twitterLink as string || '',
+              linkedin: fields.linkedinLink as string || ''
+            }
+          };
+        }
+      }
+      
+      // Return null if no company info in CMS, components will use mock data
       return null;
     } catch (error) {
-      console.error('Error fetching about content:', error);
+      console.error('Error fetching company info:', error);
       return null;
     }
   },
@@ -216,17 +306,27 @@ export const contentfulService = {
         return [];
       }
       
-      const entry = await client.getEntry('1jXYCTqMvQX8P92BwZnPYY');
+      const response = await client.getEntries({
+        content_type: 'tcFitness',
+        limit: 1
+      });
       
-      if (entry && entry.fields && entry.fields.trainers) {
-        const trainersData = entry.fields.trainers as any[];
-        return trainersData.map(trainer => ({
-          name: trainer.fields?.trainerName || trainer.name,
-          specialization: trainer.fields?.trainerSpecialization || trainer.specialization,
-          experience: trainer.fields?.trainerExperience || trainer.experience,
-          image: trainer.fields?.trainerImage || trainer.image
-        }));
+      if (response.items && response.items.length > 0) {
+        const entry = response.items[0];
+        const fields = entry.fields;
+        
+        if (fields.trainers && Array.isArray(fields.trainers)) {
+          const trainersData = fields.trainers as any[];
+          return trainersData.map(trainer => ({
+            name: trainer.fields?.trainerName || trainer.name || null,
+            specialization: trainer.fields?.trainerSpecialization || trainer.specialization || null,
+            experience: trainer.fields?.trainerExperience || trainer.experience || null,
+            image: trainer.fields?.trainerImage || trainer.image
+          }));
+        }
       }
+      
+      // Return empty array if no trainers in CMS, components will use mock data
       return [];
     } catch (error) {
       console.error('Error fetching trainers:', error);
@@ -242,19 +342,29 @@ export const contentfulService = {
         return [];
       }
       
-      const entry = await client.getEntry('1jXYCTqMvQX8P92BwZnPYY');
+      const response = await client.getEntries({
+        content_type: 'tcFitness',
+        limit: 1
+      });
       
-      if (entry && entry.fields && entry.fields.membershipPlans) {
-        const plansData = entry.fields.membershipPlans as any[];
-        return plansData.map((plan, index) => ({
-          id: plan.sys?.id || plan.id || `plan-${index}`,
-          name: plan.fields?.membershipPlanName || plan.name,
-          price: plan.fields?.membershipPlanPrice || plan.price,
-          yearlyPrice: plan.fields?.membershipPlanYearlyPrice || plan.yearlyPrice,
-          features: plan.fields?.membershipPlanFeatures || plan.features || [],
-          popular: plan.fields?.membershipPlanPopular || plan.popular || false
-        }));
+      if (response.items && response.items.length > 0) {
+        const entry = response.items[0];
+        const fields = entry.fields;
+        
+        if (fields.membershipPlans && Array.isArray(fields.membershipPlans)) {
+          const plansData = fields.membershipPlans as any[];
+          return plansData.map((plan, index) => ({
+            id: plan.sys?.id || plan.id || `plan-${index}`,
+            name: plan.fields?.membershipPlanName || plan.name || null,
+            price: plan.fields?.membershipPlanPrice || plan.price || null,
+            yearlyPrice: plan.fields?.membershipPlanYearlyPrice || plan.yearlyPrice || null,
+            features: plan.fields?.membershipPlanFeatures || plan.features || null,
+            popular: plan.fields?.membershipPlanPopular || plan.popular || null
+          }));
+        }
       }
+      
+      // Return empty array if no plans in CMS, components will use mock data
       return [];
     } catch (error) {
       console.error('Error fetching membership plans:', error);

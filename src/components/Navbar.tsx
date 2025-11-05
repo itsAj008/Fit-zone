@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBars, FaTimes, FaDumbbell } from 'react-icons/fa';
 import { smoothScrollTo } from '../utils/smoothScroll';
+import DarkModeToggle from './DarkModeToggle';
 
 const Navbar = memo(() => {
   const [isOpen, setIsOpen] = useState(false);
@@ -108,8 +109,8 @@ const Navbar = memo(() => {
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-md'
-          : 'bg-white'
+          ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-md'
+          : 'bg-white dark:bg-gray-900'
       }`}
     >
       <div className="container mx-auto px-4">
@@ -122,7 +123,7 @@ const Navbar = memo(() => {
             className="flex items-center space-x-3"
           >
             <FaDumbbell className="text-blue-600 text-2xl" />
-            <span className="text-2xl font-bold text-gray-900">Tc fitness</span>
+            <span className="text-2xl font-bold text-gray-900 dark:text-white">Tc fitness</span>
           </motion.div>
 
           {/* Desktop Nav */}
@@ -138,7 +139,7 @@ const Navbar = memo(() => {
                   className={`${
                     isActive
                       ? 'text-blue-600 font-semibold'
-                      : 'text-gray-700 hover:text-blue-600'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
                   } transition-colors duration-200 font-medium cursor-pointer touch-manipulation relative group`}
                 >
                   {item.name}
@@ -167,15 +168,19 @@ const Navbar = memo(() => {
             >
               Join Now
             </motion.a>
+            <DarkModeToggle />
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-gray-700 text-2xl"
-          >
-            {isOpen ? <FaTimes /> : <FaBars />}
-          </button>
+          <div className="md:hidden flex items-center space-x-3">
+            <DarkModeToggle />
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-gray-700 dark:text-gray-300 text-2xl"
+            >
+              {isOpen ? <FaTimes /> : <FaBars />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -186,7 +191,7 @@ const Navbar = memo(() => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-200"
+            className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700"
           >
             <div className="container mx-auto px-4 py-4 space-y-4">
               {navItems.map((item) => {
@@ -200,8 +205,8 @@ const Navbar = memo(() => {
                     className={`block ${
                       isActive
                         ? 'text-blue-600 font-semibold'
-                        : 'text-gray-700 hover:text-blue-600'
-                    } transition-all duration-300 py-3 cursor-pointer touch-manipulation border-b border-gray-100 last:border-0`}
+                        : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                    } transition-all duration-300 py-3 cursor-pointer touch-manipulation border-b border-gray-100 dark:border-gray-700 last:border-0`}
                   >
                     {item.name}
                   </a>

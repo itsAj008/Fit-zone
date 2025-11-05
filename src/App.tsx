@@ -1,51 +1,54 @@
 import { Suspense } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import About from './components/About';
+import Facilities from './components/Facilities';
+import Trainers from './components/Trainers';
+import MembershipPlans from './components/MembershipPlans';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { LoadingProvider } from './contexts/LoadingContext';
-import { useMembershipStore } from './store/membershipStore';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { Toaster } from 'react-hot-toast';
-import { testContentfulConnection, testSpecificContentTypes } from './utils/contentfulTest';
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
-  const selectedPlan = useMembershipStore((state) => state.selectedPlan);
-
-  const handleTestContentful = async () => {
-    console.clear();
-    console.log('🧪 Starting Contentful Tests...');
-    await testContentfulConnection();
-    await testSpecificContentTypes();
-  };
-
   return (
-    <ErrorBoundary>
-      <LoadingProvider>
-        <div className="min-h-screen">
-          {/* Development Debug Panel */}
-          {import.meta.env.DEV && (
-            <div className="fixed top-4 right-4 z-50 bg-red-500 text-white p-2 rounded shadow-lg">
-              <button 
-                onClick={handleTestContentful}
-                className="text-xs bg-red-600 hover:bg-red-700 px-2 py-1 rounded"
-              >
-                🔍 Test CMS
-              </button>
-            </div>
-          )}
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary>
+        <ThemeProvider>
+          <LoadingProvider>
+          <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+            <Navbar />
+            
+            <main id="main-content" role="main">
+              <Suspense fallback={
+                <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
+                  <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600 dark:border-red-400"></div>
+                </div>
+              }>
+                <Hero />
+                <About />
+                <Facilities />
+                <Trainers />
+                <MembershipPlans />
+                <Contact />
+              </Suspense>
+            </main>
           
-          <Navbar />
-          
-          <main id="main-content" role="main">
-            <Hero />
-            <div className="py-20 bg-gray-50 text-center">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                🎉 Components Loading Successfully!
-              </h2>
-              <p className="text-xl text-gray-600">
-                Hero and Navbar are working. Let's add more components step by step.
-              </p>
-            </div>
-          </main>
+          <Footer />
           
           {/* Toast notifications */}
           <Toaster 
@@ -53,14 +56,17 @@ function App() {
             toastOptions={{
               duration: 4000,
               style: {
-                background: '#363636',
-                color: '#fff',
+                background: 'var(--toast-bg)',
+                color: 'var(--toast-color)',
               },
+              className: 'dark:bg-gray-800 dark:text-white bg-white text-gray-900',
             }}
           />
         </div>
       </LoadingProvider>
+        </ThemeProvider>
     </ErrorBoundary>
+    </QueryClientProvider>
   );
 }
 
