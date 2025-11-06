@@ -1,7 +1,8 @@
 import type { MembershipPlan, Trainer, Testimonial, Facility } from '../types/index';
 import { FaUsers, FaTrophy, FaHeart, FaStar } from 'react-icons/fa';
+import { crossfit, gym, lockerShower, personalTraining, strengthTraining } from '../assets';
 
-// Hero content for fallback
+
 export const heroContent = {
   title: "Transform Your Body, Transform Your Life",
   subtitle: "Join hundreds of members achieving their fitness goals at TC Fitness. Where excellence meets dedication.",
@@ -10,7 +11,6 @@ export const heroContent = {
   secondaryButtonText: "Learn More"
 };
 
-// About content for fallback
 export const aboutContent = {
   title: "About TC Fitness",
   subtitle: "Your Premier Fitness Destination",
@@ -130,31 +130,31 @@ export const facilities: Facility[] = [
   {
     id: '1',
     name: 'Strength Training',
-    icon: '💪',
+    backgroundImage: strengthTraining,
     description: 'Latest cardio and strength training equipment',
   },
   {
     id: '2',
     name: 'Group Classes',
-    icon: '🏋️',
+    backgroundImage: crossfit,
     description: 'crossfit, HIIT, and more group sessions',
   },
   {
     id: '3',
     name: 'Personal Training',
-    icon: '👨‍🏫',
+    backgroundImage: personalTraining,
     description: 'Certified trainers for personalized guidance',
   },
   {
     id: '4',
     name: 'Locker Rooms',
-    icon: '🚿',
+    backgroundImage: lockerShower,
     description: 'Clean and spacious locker rooms with showers',
   },
   {
     id: '5',
     name: '5-9am and 5-9pm',
-    icon: '⏰',
+    backgroundImage: gym,
     description: 'Available for all members',
   },
 ];

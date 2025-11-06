@@ -18,7 +18,8 @@ export type Testimonial = {
 export type Facility = {
   id: string;
   name: string;
-  icon: string;
+  icon?: string;
+  backgroundImage?: any;
   description: string;
 };
 
