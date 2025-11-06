@@ -53,7 +53,8 @@ export const useFacilities = () => {
           return facilities.map(facility => ({
             name: facility.name,
             description: facility.description,
-            icon: facility.icon
+            icon: facility.icon,
+            backgroundImage: facility.backgroundImage // ✅ Include backgroundImage
           }));
         }
         return data;
@@ -62,7 +63,8 @@ export const useFacilities = () => {
         return facilities.map(facility => ({
           name: facility.name,
           description: facility.description,
-          icon: facility.icon
+          icon: facility.icon,
+          backgroundImage: facility.backgroundImage // ✅ Include backgroundImage
         }));
       }
     },
