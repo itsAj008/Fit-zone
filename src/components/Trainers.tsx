@@ -73,15 +73,15 @@ const Trainers = memo(() => {
                     width="400"
                     height="300"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <h3 className="text-2xl font-bold mb-1">{trainer.name}</h3>
-                    <p className="text-sm text-gray-200">
+                  {/* <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" /> */}
+                </div>
+                <div className="p-3">
+                   <div className='mb-1'>
+                    <p className="text-2xl font-bold dark:text-gray-300">{trainer.name}</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">
                       {trainer.specialization}
                     </p>
                   </div>
-                </div>
-                <div className="p-6">
                   <div className="flex items-center mb-2">
                     <FaStar className="text-yellow-500 mr-1" />
                     <span className="text-gray-700 dark:text-gray-300 font-medium">
