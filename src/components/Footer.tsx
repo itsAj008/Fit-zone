@@ -14,9 +14,6 @@ const Footer = memo(() => {
               <FaDumbbell className="text-blue-600 text-2xl" />
               <span className="text-2xl font-bold">Tc fitness</span>
             </div>
-            <p className="text-gray-400 mb-4">
-              Transform your body, transform your life. Join us on your fitness journey today.
-            </p>
             <div className="flex space-x-4">
               <a
                 href="https://facebook.com"
@@ -55,70 +52,6 @@ const Footer = memo(() => {
                 <FaLinkedin className="text-xl" />
               </a>
             </div>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#home" className="text-gray-400 hover:text-red-600 transition-colors duration-200">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#about" className="text-gray-400 hover:text-red-600 transition-colors duration-200">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="#facilities" className="text-gray-400 hover:text-red-600 transition-colors duration-200">
-                  Facilities
-                </a>
-              </li>
-              <li>
-                <a href="#trainers" className="text-gray-400 hover:text-red-600 transition-colors duration-200">
-                  Trainers
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Membership */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Membership</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#plans" className="text-gray-400 hover:text-red-600 transition-colors duration-200">
-                  Plans & Pricing
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="text-gray-400 hover:text-red-600 transition-colors duration-200">
-                  Contact Us
-                </a>
-              </li>
-              {/* <li>
-                <a href="#" className="text-gray-400 hover:text-red-600 transition-colors duration-200">
-                  FAQ
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-red-600 transition-colors duration-200">
-                  Terms & Conditions
-                </a>
-              </li> */}
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li>Jaga Jyothi, Old LIC Building,</li>
-              <li>Bangalore - Honnavar Hwy, Tarikere,</li>
-              <li>Karnataka 577228</li> 
-            </ul>
           </div>
         </div>
 
