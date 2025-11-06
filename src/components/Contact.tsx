@@ -177,7 +177,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Phone</h4>
-                    <p className="text-gray-600 dark:text-gray-300">+1 (555) 123-4567</p>
+                    <p className="text-gray-600 dark:text-gray-300">+91 9110672744</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
@@ -208,7 +208,7 @@ const Contact = () => {
                   <span>WhatsApp</span>
                 </motion.a>
                 <motion.a
-                  href="tel:+15551234567"
+                  href="tel:+91 9110672744"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="flex items-center justify-center space-x-2 bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors duration-200"
