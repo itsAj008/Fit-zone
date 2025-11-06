@@ -81,17 +81,17 @@ export const membershipPlans: MembershipPlan[] = [
 export const trainers: Trainer[] = [
   {
     id: '1',
-    name: 'John Smith',
-    specialization: 'Strength Training',
+    name: 'Chandhan',
+    specialization: 'CrossFit & HIIT',
     image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400',
     experience: 7,
   },
   {
     id: '2',
     name: 'Emma Wilson',
-    specialization: 'CrossFit & HIIT',
+    specialization: 'Strength Training',
     image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400',
-    experience: 10,
+    experience: 5,
   },
 ];
 
